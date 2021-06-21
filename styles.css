@@ -1,0 +1,191 @@
+body {
+	background-color: white;
+}
+
+table {
+	position: relative;
+	text-align: left;
+	position: relative;
+	border-collapse: collapse;
+	width: 100%;
+	z-index: 0;
+}
+
+table, th, td {
+    border-bottom: 1px solid black;
+	padding-left: 15px;
+}​
+
+table th {
+	background: white;
+	position: sticky;
+	top: 0;
+}
+
+#devIdleTable {
+    max-height: 500px;
+    overflow: auto;
+	position: relative;
+	z-index: 0;
+}
+
+#attackList {
+	display: none;
+	overflow: auto;
+	position: fixed;
+	padding: 5px;
+	z-index: 1;
+	border-style: solid;
+	background-color: white;
+	max-width: 300px;
+}
+
+#mask {
+	display: none;
+	background: rgba(170, 170, 170, 0.75);
+	width: 100%;
+	height: 100%;
+	z-index: 4;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+}
+
+#mask2 {
+	display: none;
+	background: rgba(170, 170, 170, 0.75);
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+}
+
+#mask3 {
+	display: none;
+	background: rgba(170, 170, 170, 0.75);
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+}
+
+.winlose {
+	display: none;
+	width: 800px;
+	height: 75px;
+	background-color: white;
+	position: fixed;
+	left: 100px;
+	top: 150px;
+	z-index: 11;
+	border-style: solid;
+	vertical-align: center;
+}
+
+.maxWidth{
+	width: 1000px;
+}
+
+.minHeight{
+	height: 33.5px;
+}
+
+.gameTable{
+	width: 1000px;
+	height: 800px;
+}
+
+.fontSize {
+	font-size: 20pt;
+	font-family: Arial;
+}
+
+.trouble {
+	background-color: red;
+	font-family: Arial;
+	font-size: 20pt;
+}
+
+.healthy {
+	background-color: #af0;
+	font-family: Arial;
+	font-size: 20pt;
+}
+
+.plain {
+	font-family: Arial;
+	font-size: 20pt;
+}
+
+.unlocked {
+	background-color: #ddd;
+	font-family: Arial;
+	font-size: 20pt;
+}
+
+.warning {
+	font-family: Arial;
+	color: red;
+	font-weight: bold;
+}
+
+.allClear {
+	font-family: Arial;
+	color: green;
+	font-weight: bold;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
+
+.fitWidth {
+	width: 99%;
+	text-align: right;
+}
+
+.instructions {
+	display: none;
+	width: 800px;
+	height: 450px;
+	background-color: white;
+	position: fixed;
+	left: 100px;
+	top: 15px;
+	white-space: wrap;
+	font-family: Arial;
+	font-size: 15pt;
+	z-index: 5;
+	overflow: auto;
+	border-style: solid;
+	padding: 10px;
+}
+
+.centered {
+	width: 100%;
+	text-align: center;
+}
+
+.multiplierModal {
+	display: none;
+	background-color: white;
+	width: 950px;
+	height: 450px;
+	position: fixed;
+	nowrap: nowrap;
+	overflow: auto;
+	border-style: solid;
+	padding: 10px;
+	z-index: 3;
+	left: 20px;
+	top: 50px;
+}
+
+::selection {
+    background-color: transparent;
+    color: #000;
+}

@@ -1,0 +1,152 @@
+<html>
+<head>
+<title>Software Developer Idle</title>
+
+<link href="styles.css" rel="stylesheet">
+<script src="appType.js"></script>
+<script src="appMultiplier.js"></script>
+<script src="attackVector.js"></script>
+<script src="devIdle.js"></script>
+
+<script>
+function StartGame()
+{
+	(new DevIdle()).BeginGame();
+}
+</script>
+
+</head>
+<body onload="StartGame()">
+<table class="maxWidth">
+	<tr>
+		<td id="pauseCell" class="nowrap"></td>
+		<td class="nowrap fontSize">Credits: &#575;<label id="credits"></label></td>
+		<td class="nowrap fontSize">Income: &#575;<label id="income"></label> per second</td>
+		<td id="instructions" class="fitWidth"></td>
+	</tr>
+	<tr>
+		<td class="nowrap minHeight" colspan="5"><label id="message"></label></td>
+	</tr>
+</table>
+
+<div id="devIdleTable" class="gameTable">
+	<table id="devIdle">
+	</table>
+</div>
+
+<div id="attackList">
+
+</div>
+
+<div id="mask"></div>
+<div id="mask2"></div>
+<div id="mask3"></div>
+
+<div id="win" class="winlose">
+	<div class="centered plain">
+		Congratulations! You have all the money in the world.
+	</div>
+</div>
+
+<div id="lose" class="winlose">
+	<div class="centered plain">
+		So sorry. You lost.
+		<br />
+		Hackers destroyed your apps and took all your money.
+	</div>
+</div>
+
+<div id="multiplierModal" class="multiplierModal">
+	<table>
+		<tr>
+			<td class="nowrap fontSize">Credits: &#575;<label id="credits2"></label></td>
+			<td class="nowrap fontSize">Income: &#575;<label id="income2"></label> per second</td>
+			<td class="fitWidth"></td>
+		</tr>
+		<tr>
+			<td class="nowrap minHeight" colspan="3"><label id="message2"></label></td>
+		</tr>
+		<tr>
+			<td class="nowrap minHeight fontSize" colspan="3"><label id="appName"></label></td>
+		</tr>
+	</table>
+	<br />
+	<table id="multiplierTable">
+	</table>
+	<br />
+	<div class="centered">
+		<button id="closeMultiplier">Close</button>
+	</div>
+</div>
+
+<div id = "instructionsModal" class="instructions">
+You are a software developer and you're tired of working for someone else all the time, only making what they 
+want you to make, and never making the stuff you want to. Never working on your own projects.
+<br /><br />
+Well, your time has come. Finally. You're starting your own business with what you have in the bank: &#575; 1. Ok, 
+so you're broke, but you can still do this. You just need to start doing this "nights & weekends".
+<br /><br />
+Once you get a few projects completed, you'll be able to afford to spend less time "at the office" and more 
+time working on your own stuff. Also, you'll be able to hire people to do more things for you. You'll also 
+have to start managing your resources. This includes servers and attacks on your stuff.
+<br /><br />
+What? Did you think you weren't going to get noticed by hackers or have to deal with hardware failures? Pfft! 
+This isn't a game, it's your life! You've wanted to do this "forever", so you have to deal with the bad as 
+well as reap the rewards.
+<br /><br /><br />
+Gameplay:
+<br /><br />
+This starts out as a fairly standard Idle style game, but there's some subtile differences. 
+<br /><br />
+The first is that you can go into debt, but only for 4 seconds. You also can't keep spending money after you've 
+already taken a loan. This means that if you need to spend money to deal with an attack, you have to make 
+sure your income is positive. And if you happen to have a negative income, you'd better fix it before your 
+bank account goes negative. Which brings up the situation that if your credits are negative and your income 
+is negative, you've lost the game. However, if your income is still positive, you might just be able to crawl 
+out of a negative credit account. But go too far into debt and you won't get out before more attacks happen.
+<br /><br />
+Another difference is like some "dungeon crawl" Idle games, you have "attackers", which have already been mentioned. These will 
+come up randomly to drain your income and your bank account. If you don't deal with these attacks, your income 
+can go negative for an App Type. If it's bad enough, your total income might even go negative. You'll notice 
+these attacks by watching the "Current Attacks" column. There will also be a message near the top of the 
+screen that briefly displays what attack is happening.
+<br /><br />
+So how do you deal with these attacks? Well, that's where the "Multipliers" come into play. Not only do they 
+increase your income, but they also help defend your apps. If an attack starts, but your Defenses/Multipliers 
+are at a sufficient level, the attack will be automatically stopped and there won't be any damage done. Your 
+Defense is 5x your total multiplier count multiplied again by how many of that app you have.
+<br /><br />
+Be aware that your Multipliers get more expensive for how many of that app you own, so make sure you manage 
+your money and Multipliers wisely. Also be aware that attacks will happen even if you don't own any Multipliers. 
+These attacks can be really nasty at times and can drain your account before you have time to react, so getting 
+Multipliers pre-emptively is generally a good idea. Also, as you create more apps and different app types, the 
+stronger the attack.
+<br /><br />
+Oh, and if you've never played an Idle style game before, the idea of this game is to "publish" an App Type to make 
+money, then publish more Apps and make more money. You can increase your income faster by publishing more of the 
+same type of app or by publishing more expensive apps. This is encouraged by the fact that each app becomes more 
+expensive the more you publish. And you make money just by waiting. Each App Type tells you how much money you 
+make for each app you publish.
+<br /><br />
+To help you figure out how much money you can make and get for a loan, I've included an "Income per second" statistic. 
+As mentioned earlier, you can borrow only 4 seconds worth of your Income, and you can only get 1 of these loans 
+at a time.
+<br /><br />
+To make publishing apps easier, there's a selection box that allows you to "Create" more than 1 of the same kind 
+of app at a time.
+<br /><br />
+And, just for fun and to show how useful the Multipliers are, the "Defended Attacks" column is there to show 
+how many attacks have been defended by each app. You may notice that number increasing without there ever being 
+an active attack, but only if your Multipliers are up to the task. This kind of makes it an Inception(R) Idle 
+game, where there's an Idle game inside of an Idle game. If you move your mouse over this column, you can see 
+how many and what types of attacks have been defended against.
+<br /><br />
+One last thing, and this is very important: Have fun being a Software Magnate!
+<br /><br />
+<div class="centered">
+	<button id="closeInstructions" >Close</button>
+</div>
+</div>
+
+</body>
+</html>
