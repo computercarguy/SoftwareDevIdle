@@ -11,22 +11,42 @@ table {
 	z-index: 0;
 }
 
-table, th, td {
-    border-bottom: 1px solid black;
-	padding-left: 15px;
-}​
+table.scrollApps tbody,
+table.scrollApps thead tr,
+table.scrollMultipliers tbody,
+table.scrollMultipliers tfoot,
+table.scrollMultipliers thead tr {
+    display: block;
+}
 
-table th {
-	background: white;
-	position: sticky;
-	top: 0;
+table.scrollMultipliers tfoot {
+    bottom: 0;
+    position: absolute;
+}
+
+table.scrollApps tbody {
+    max-height: 450px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+table.scrollMultipliers tbody {
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #devIdleTable {
     max-height: 500px;
-    overflow: auto;
+    overflow: hidden;
 	position: relative;
 	z-index: 0;
+}
+
+#multiplierTable {
+    height: 300px;
+    overflow: hidden;
+	position: relative;
 }
 
 #attackList {
@@ -73,10 +93,38 @@ table th {
 	top: 0px;
 }
 
+#mask4 {
+	display: none;
+	background: rgba(170, 170, 170, 0.75);
+	width: 100%;
+	height: 100%;
+	z-index: 6;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+}
+
+.achievements {
+    display: none;
+	width: 800px;
+	height: 550px;
+	background-color: white;
+	position: fixed;
+	left: 100px;
+	top: 15px;
+	white-space: wrap;
+	font-family: Arial;
+	font-size: 15pt;
+	z-index: 7;
+	overflow: auto;
+	border-style: solid;
+	padding: 10px;
+}
+
 .winlose {
 	display: none;
 	width: 800px;
-	height: 75px;
+	height: 95px;
 	background-color: white;
 	position: fixed;
 	left: 100px;
@@ -96,35 +144,40 @@ table th {
 
 .gameTable{
 	width: 1000px;
-	height: 800px;
+	height: 500px;
+}
+
+.multiplierTable{
+	width: 950px;
+	height: 300px;
 }
 
 .fontSize {
-	font-size: 20pt;
+	font-size: 15pt !important;
 	font-family: Arial;
 }
 
 .trouble {
 	background-color: red;
 	font-family: Arial;
-	font-size: 20pt;
+	font-size: 15pt;
 }
 
 .healthy {
 	background-color: #af0;
 	font-family: Arial;
-	font-size: 20pt;
+	font-size: 15pt;
 }
 
 .plain {
 	font-family: Arial;
-	font-size: 20pt;
+	font-size: 15pt;
 }
 
 .unlocked {
 	background-color: #ddd;
 	font-family: Arial;
-	font-size: 20pt;
+	font-size: 15pt;
 }
 
 .warning {
@@ -146,6 +199,29 @@ table th {
 .fitWidth {
 	width: 99%;
 	text-align: right;
+}
+
+.messagesModal {
+	display: none;
+    border: 1px solid black;
+    padding: 10px;
+	max-width: 500px;
+	max-height: 265px;
+	position: fixed;
+	font-family: Arial;
+	z-index: 4;
+	font-size: 15pt;
+	background-color: white;
+}
+
+.mainMessages {
+    left: 20px;
+	top: 60px;
+}
+
+.multipliersMessages {
+    left: 40px;
+	top: 120px;
 }
 
 .instructions {
@@ -170,14 +246,22 @@ table th {
 	text-align: center;
 }
 
+.rightJustified {
+	text-align: right;
+}
+
+.hidden {
+    display: none;
+}
+
 .multiplierModal {
 	display: none;
 	background-color: white;
 	width: 950px;
 	height: 450px;
 	position: fixed;
-	nowrap: nowrap;
-	overflow: auto;
+	white-space: nowrap;
+	overflow: hidden;
 	border-style: solid;
 	padding: 10px;
 	z-index: 3;
@@ -185,7 +269,93 @@ table th {
 	top: 50px;
 }
 
+#achievementsModal tbody td {
+    border: 1px solid black;
+    width: 25%;
+	text-align: center;
+    padding: 5px;
+    vertical-align: bottom;
+}
+
 ::selection {
     background-color: transparent;
     color: #000;
+}
+
+.appTypeCol {
+    width: 160px;
+}
+
+.costCol {
+    width: 121px;
+}
+
+.incomeEachCol {
+    width: 87px;
+}
+
+.incomeTotalCol {
+    width: 115px;
+}
+
+.multiplierDdlCol {
+    width: 75px;
+}
+
+.publishedCol {
+    width: 84px;
+}
+
+.defenseViewCol {
+    width: 93px;
+}
+
+.defenseTotalCol {
+    width: 96px;
+}
+
+.attacksCol {
+    width: 81px;
+}
+
+.defendedCol {
+    width: 90px;
+}
+
+.nameDefenseCol {
+    width: 293px;
+}
+
+.costDefenseCol {
+    width: 109px;
+}
+
+.multiplierDefenseCol {
+    width: 145px;
+}
+
+.multiplierDdlDefenseCol {
+    width: 150px;
+}
+
+.purchasedDefenseCol {
+    width: 161px;
+}
+
+.totalDefenseCol {
+    width: 92px;
+}
+
+.achievementPlaceholder {
+    content:url(blackstar.svg);
+}
+
+.achievementWon {
+    content:url(goldstar.svg);
+}
+
+.infinityImg{
+    content:url(infinity.svg);
+    height: 20px;
+    vertical-align: middle;
 }

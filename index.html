@@ -1,0 +1,331 @@
+<html>
+    <head>
+        <title>Software Developer Idle</title>
+
+        <link href="styles.css" rel="stylesheet">
+        <script src='https://cdn.jsdelivr.net/npm/big.js@6.2.2/big.min.js'></script>
+        <script src="appType.js"></script>
+        <script src="appMultiplier.js"></script>
+        <script src="attackVector.js"></script>
+        <script src="staticData.js"></script>
+        <script src="achievements.js"></script>
+        <script src="appGrid.js"></script>
+        <script src="defenseMultipliers.js"></script>
+        <script src="devIdle.js"></script>
+
+        <script>
+            function StartGame()
+            {
+                new DevIdle().BeginGame();
+            }
+        </script>
+    </head>
+    <body onload="StartGame()">
+        <table class="maxWidth">
+            <tr>
+                <td class="nowrap" style="min-width:90px;"><button type="button" id="pauseButton">Pause</button></td>
+                <td class="nowrap fontSize" style="min-width:200px;">Credits: &#575;<label id="credits"></label></td>
+                <td class="nowrap fontSize">Income: &#575;<label id="income"></label> per second</td>
+                <td class="fitWidth rightJustified" id="emptyCell"></td>
+                <td class="fitWidth rightJustified"><button type="button" id="achievementsButton">Achievements</button></td>
+                <td class="fitWidth"><button type="button" id="instructionsButton">Instructions</button></td>
+            </tr>
+            <tr>
+                <td class="nowrap minHeight" colspan="3" id="message"></td>
+            </tr>
+        </table>
+
+        <div id="devIdleTable" class="gameTable">
+            <table id="devIdle" class="scrollApps">
+                <thead>
+                    <tr>
+                        <th class="appTypeCol">App Type</th>
+                        <th class="costCol rightJustified">Cost</th>
+                        <th class="incomeEachCol rightJustified">Income<br/>(each/s)</th>
+                        <th class="incomeTotalCol rightJustified">Income<br/>(total/s)</th>
+                        <th class="multiplierDdlCol rightJustified">
+                            <select id='BuildMultiplier'>
+                                <option value='1'>1</option>
+                                <option value='5'>5</option>
+                                <option value='10'>10</option>
+                                <option value='25'>25</option>
+                                <option value='50'>50</option>
+                                <option value='100'>100</option>
+                            </select>
+                        </th>
+                        <th class="publishedCol rightJustified">Published</th>
+                        <th class="defenseViewCol rightJustified">Defense/<br/>Multipliers</th>
+                        <th class="defenseTotalCol rightJustified">Total Defense/<br/>Multipliers</th>
+                        <th class="attacksCol rightJustified">Current Attacks</th>
+                        <th class="defendedCol rightJustified">Defended Attacks</th>
+                    </tr>
+                </thead>
+                <tbody id ='appList' class='maxWidth'>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="attackList">
+
+        </div>
+
+        <div id="mask"></div>
+        <div id="mask2"></div>
+        <div id="mask3"></div>
+        <div id="mask4"></div>
+
+        <div id="win" class="winlose">
+            <div class="centered plain">
+                Congratulations! You have all the money.
+                <br>
+                There's nothing left for you to do, but buy a planet and retire.
+                <br>
+                <button type="button" id="wonButton">Restart</button>
+            </div>
+        </div>
+
+        <div id="lose" class="winlose">
+            <div class="centered plain">
+                So sorry. You lost.
+                <br />
+                Hackers destroyed your apps and took all your money.
+                <br>
+                <button type="button" id="lostButton">Restart</button>
+            </div>
+        </div>
+
+        <div id="multiplierModal" class="multiplierModal">
+            <table>
+                <tr>
+                    <td class="nowrap fontSize" style="min-width:200px;">Credits: &#575;<label id="credits2"></label></td>
+                    <td class="nowrap fontSize">Income: &#575;<label id="income2"></label> per second</td>
+                    <td class="fitWidth"></td>
+                </tr>
+                <tr>
+                    <td class="nowrap minHeight" colspan="3" id="message2"></td>
+                </tr>
+                <tr>
+                    <td class="nowrap minHeight fontSize" colspan="3"><select id="appName"></select></td>
+                </tr>
+            </table>
+            <br />
+            <div class="multiplierTable">
+                <table id="multiplierTable" class="scrollMultipliers">
+                    <thead>
+                        <tr>
+                            <th class="nameDefenseCol">Name</th>
+                            <th class="costDefenseCol">Cost</th>
+                            <th class="multiplierDefenseCol">Multiplier</th>
+                            <th class="multiplierDdlDefenseCol">
+                                <select id='MultiplierMultiplier'>
+                                    <option value='1'>1</option>
+                                    <option value='5'>5</option>
+                                    <option value='10'>10</option>
+                                    <option value='25'>25</option>
+                                    <option value='50'>50</option>
+                                    <option value='100'>100</option>
+                                </select>
+                            </th>
+                            <th class="purchasedDefenseCol">Purchased</th>
+                            <th class="totalDefenseCol">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="nameDefenseCol"></td>
+                            <td class="costDefenseCol"></td>
+                            <td class='plain multiplierDefenseCol'>Attack:</td>
+                            <td id='attackStrength' class='multiplierDdlDefenseCol trouble'>0</td>
+                            <td class='plain purchasedDefenseCol'>Defense:</td>
+                            <td id='defenseStrength' class='totalDefenseCol healthy'>0</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <br />
+            <div class="centered">
+                <button id="closeMultiplier">Close</button>
+            </div>
+        </div>
+
+        <div id="messagesModal" class="messagesModal">
+            Message Archive:
+            <table>
+                <tbody id ='messageList'>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="achievementsModal" class="achievements">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="3" style="font-size: 25px;">Achievements:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td title="Earned for every 100 apps deployed, total.">Deployments Purchased
+                            <br/><img id="deploymentsAchievement" class="achievementPlaceholder">
+                            <br/>Level <label id="deploymentsLevel"></label> of <img class="infinityImg">
+                        </td>
+                        <td title="Earned for every 100 Defenses/Multipliers purchased, total.">Defenses/Multipliers<br/>Purchased
+                            <br/><img id="multipliersAchievement" class="achievementPlaceholder">
+                            <br/>Level <label id="defensesLevel"></label> of <img class="infinityImg">
+                        </td>
+                        <td title="Earned by adding thousands separators to your Credits.">Max Credits
+                            <br/><img id="cashAchievement" class="achievementPlaceholder">
+                            <br/>Level <label id="cashLevel"></label> of <img class="infinityImg">
+                        </td>
+                        <td title="Earned by every 2 digits added to your Income.">Max Income
+                            <br/><img id="incomeAchievement" class="achievementPlaceholder">
+                            <br/>Level <label id="incomeLevel"></label> of <img class="infinityImg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td title="Earned for every 100 attacks defended against, total.">Attacks Defended
+                            <br/><img id="attacksAchievement" class="achievementPlaceholder">
+                            <br/>Level <label id="attacksLevel"></label> of <img class="infinityImg">
+                        </td>
+                        <td title="Earned for every 10 loans you've used.">Number of Loans
+                            <br/><img id="loansNumberAchievement" class="achievementPlaceholder">
+                            <br/>Level <label id="loansLevel"></label> of <img class="infinityImg">
+                        </td>
+                        <td title="Earned by adding thousands separators to your max loan amount.">Max Amount of<br/>a Single Loan
+                            <br/><img id="loansAmountAchievement" class="achievementPlaceholder">
+                            <br/>Level <label id="loansMaxLevel"></label> of <img class="infinityImg">
+                        </td>
+                        <td title="Earned for every 5 ads you watched.">Ads Watched
+                            <br/><img id="adsAchievement" class="achievementPlaceholder">
+                            <br/>Level <label id="adsLevel"></label> of <img class="infinityImg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td title="Earned by purchasing all Defenses/Multipliers types.">All Defenses/Multipliers<br/>Types Purchased
+                            <br/><img id="allMultipliersAchievement" class="achievementPlaceholder">
+                        </td>
+                        <td title="Earned by defending against all attack types.">All Attacks<br/>Defended Against
+                            <br/><img id="allAttacksAchievement" class="achievementPlaceholder">
+                        </td>
+                        <td title="Earned by recovering from an attack where you were losing more money than you were making.">Surviving<br/>Negative Income
+                            <br/><img id="negativeIncomeAchievement" class="achievementPlaceholder">
+                        </td>
+                        <td title="Earned by losing or winning, then trying again.">You Restarted!
+                            <br/><img id="restartedAchievement" class="achievementPlaceholder">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td title="Earned by creating a Military Contract.">Big Money
+                            <br/><img id="bigMoneyAchievement" class="achievementPlaceholder">
+                        </td>
+                        <td title="Earned by creating an Interstellar Module.">Extraterrestrial
+                            <br/><img id="extraterrestrialAchievement" class="achievementPlaceholder">
+                        </td>
+                        <td title="Earned by creating an Inter Dimensional Travel Portal.">Extradimensional
+                            <br/><img id="extradimensionalAchievement" class="achievementPlaceholder">
+                        </td>
+                        <td title="Earned by having negative income, taking a loan to buy defense/multipliers or more apps, then getting back to positive income and positive credits">Brown Pants!
+                            <br/><img id="brownPantsAchievement" class="achievementPlaceholder">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><div class="hidden" title="Earned by being on the Achievements page while you lost." id="neroDiv">Nero Fiddled
+                            <br/><img id="neroAchievement" class="achievementPlaceholder">
+                            </div>
+                        </td>
+                        <td title="Earned by creating an Inter Dimensional Communications.">You Won!
+                            <br/><img id="winAchievement" class="achievementPlaceholder">
+                        </td>
+                        <td title="Earned by winning without needing a loan.">You won without<br/>needing a loan!
+                            <br/><img id="winLoanAchievement" class="achievementPlaceholder">
+                        </td>
+                        <td><div class="hidden" title="Earned by earning all other achievements." id="allStarDiv">All Star
+                            <br/><img id="allstarAchievement" class="achievementPlaceholder">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="centered" style="padding:5px;"><button type="button" id="achievementsClose">Close</button></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div id="instructionsModal" class="instructions">
+            You are a software developer and you're tired of working for someone else all the time, only making what they
+            want you to make, and never making the stuff you want to. Never working on your own projects.
+            <br /><br />
+            Well, your time has come. Finally. You're starting your own business with what you have in the bank: &#575; 1. Ok,
+            so you're broke, but you can still do this. You just need to start doing this "nights & weekends".
+            <br /><br />
+            Once you get a few projects completed, you'll be able to afford to spend less time "at the office" and more
+            time working on your own stuff. Also, you'll be able to hire people to do more things for you. You'll also
+            have to start managing your resources. This includes servers and attacks on your stuff.
+            <br /><br />
+            What? Did you think you weren't going to get noticed by hackers or have to deal with hardware failures? Pfft!
+            This isn't a game, it's your life! You've wanted to do this "forever", so you have to deal with the bad as
+            well as reap the rewards.
+            <br /><br /><br />
+            Gameplay:
+            <br /><br />
+            This starts out as a fairly standard Idle style game, but there's some subtile differences.
+            <br /><br />
+            The first is that you can go into debt, but only for 4 seconds. You also can't keep spending money after you've
+            already taken a loan. This means that if you need to spend money to deal with an attack, you have to make
+            sure your income is positive. And if you happen to have a negative income, you'd better fix it before your
+            bank account goes negative. Which brings up the situation that if your credits are negative and your income
+            is negative, you've lost the game. However, if your income is still positive, you might just be able to crawl
+            out of a negative credit account. But go too far into debt and you won't get out before more attacks happen.
+            <br /><br />
+            Another difference is like some "dungeon crawl" Idle games, you have "attackers", which have already been mentioned. These will
+            come up randomly to drain your income and your bank account. If you don't deal with these attacks, your income
+            can go negative for an App Type. If it's bad enough, your total income might even go negative. You'll notice
+            these attacks by watching the "Current Attacks" column. There will also be a message near the top of the
+            screen that briefly displays what attack is happening.
+            <br /><br />
+            So how do you deal with these attacks? Well, that's where the "Multipliers" come into play. Not only do they
+            increase your income, but they also help defend your apps. If an attack starts, but your Defenses/Multipliers
+            are at a sufficient level, the attack will be automatically stopped and there won't be any damage done. Your
+            Defense is your total multiplier count multiplied by how many of that app you have.
+            <br /><br />
+            Be aware that your Multipliers get more expensive for how many of that app you own, so make sure you manage
+            your money and Multipliers wisely. Also be aware that attacks will happen even if you don't own any Multipliers.
+            These attacks can be really nasty at times and can drain your account before you have time to react, so getting
+            Multipliers pre-emptively is generally a good idea. Also, as you create more apps and different app types, the
+            stronger the attack.
+            <br /><br />
+            Oh, and if you've never played an Idle style game before, the idea of this game is to "publish" an App Type to make
+            money, then publish more Apps and make more money. You can increase your income faster by publishing more of the
+            same type of app or by publishing more expensive apps. This is encouraged by the fact that each app becomes more
+            expensive the more you publish. And you make money just by waiting. Each App Type tells you how much money you
+            make for each app you publish.
+            <br /><br />
+            To help you figure out how much money you can make and get for a loan, I've included an "Income per second" statistic.
+            As mentioned earlier, you can borrow only 4 seconds worth of your Income, and you can only get 1 of these loans
+            at a time.
+            <br /><br />
+            To make publishing apps easier, there's a selection box that allows you to "Create" more than 1 of the same kind
+            of app at a time.
+            <br /><br />
+            And, just for fun and to show how useful the Multipliers are, the "Defended Attacks" column is there to show
+            how many attacks have been defended by each app. You may notice that number increasing without there ever being
+            an active attack, but only if your Multipliers are up to the task. This kind of makes it an Inception(R) Idle
+            game, where there's an Idle game inside of an Idle game. If you move your mouse over this column, you can see
+            how many and what types of attacks have been defended against.
+            <br /><br />
+            One last thing, and this is very important: Have fun being a Software Magnate!
+            <br /><br />
+            Signed (sort of):<br />
+            Eric Ingamells<br />
+            <a href='http://EricsGear.com' target="_blank">EricsGear.com</a> <br />
+            Copyright 2025
+            <div class="centered">
+                <button id="closeInstructions" >Close</button>
+            </div>
+        </div>
+
+    </body>
+</html>
