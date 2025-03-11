@@ -1,38 +1,42 @@
 class AppGrid {
-    allApps = getApps(); // staticData.js
-    attacks = getAttacks(); // staticData.js
-    appList = document.getElementById("appList");
-    income = document.getElementById("income");
-    income2 = document.getElementById("income2");
-    attackList = document.getElementById("attackList");
-    credits = document.getElementById("credits");
-    credits2 = document.getElementById("credits2");
-    buildMultiplier = document.getElementById("BuildMultiplier");
-    messageList = document.getElementById("messageList");
-    message = document.getElementById("message");
-    message2 = document.getElementById("message2");
-
-    pause = false;
-    level = 0;
-    bankAccount = 1; // 1000000000000000000000000n;
-    allowAttacks = false;
-    loanSeconds = 4;
-    messageTimer = null;
-    ticksPerSecond = 0;
-    minimumIncomeForAttacks = 2.5;
-
-    defenseMultipliers = null;
-    achievements = null;
-
-    bigIntFormat /*: BigIntToLocaleStringOptions */ = {
-        notation: "scientific",
-        maximumFractionDigits: 4
-    };
-
     constructor(ticksPerSecondValue) {
+        this.allApps = getApps(); // staticData.js
+        this.attacks = getAttacks(); // staticData.js
+        this.appList = document.getElementById("appList");
+        this.income = document.getElementById("income");
+        this.income2 = document.getElementById("income2");
+        this.attackList = document.getElementById("attackList");
+        this.credits = document.getElementById("credits");
+        this.credits2 = document.getElementById("credits2");
+        this.buildMultiplier = document.getElementById("BuildMultiplier");
+        this.messageList = document.getElementById("messageList");
+        this.message = document.getElementById("message");
+        this.message2 = document.getElementById("message2");
+        this.pauseButton = document.getElementById("pauseButton");
+
+        this.pause = false;
+        this.level = 0;
+        this.bankAccount = 1;
+        this.allowAttacks = false;
+        this.loanSeconds = 4;
+        this.messageTimer = null;
+        this.minimumIncomeForAttacks = 2.5;
+
+        this.bigIntFormat /*: BigIntToLocaleStringOptions */ = {
+            notation: "scientific",
+            maximumFractionDigits: 4
+        };
+
+        this.adsTimerLength = 60 * 1000;
         this.ticksPerSecond = ticksPerSecondValue;
 
         this.achievements = new Achievements(this.ShowMessage.bind(this));
+
+        this.adsController = new AdsController(
+            this.AdAward.bind(this),
+            this.Pause.bind(this),
+            this.achievements.WatchedAd.bind(this.achievements)
+        );
 
         this.message.onmouseover = this.ShowMessageModal.bind(this);
         this.message.onmouseout = this.HideMessageModal.bind(this);
@@ -50,6 +54,8 @@ class AppGrid {
             this.UpdateIncomeDefense.bind(this),
             this.UpdatePurchaseButton.bind(this)
         );
+
+        this.SetupAdsTimer();
     }
 
     Reset() {
@@ -96,8 +102,8 @@ class AppGrid {
             `<td id='${newApp.name}Button' class='multiplierDdlCol unlocked'><button id='${newApp.name}Create' appNumber='${this.level}'>Create ${createMultiplier}x</button></td>` +
             `<td id='${newApp.name}Qty' class='rightJustified publishedCol unlocked'>${newApp.qtyBuilt}</td>` +
             `<td id='${newApp.name}Multipliers' class='defenseViewCol unlocked'><button id='${newApp.name}MultipliersButton' appNumber='${this.level}' disabled>View</button></td>` +
-            `<td id='${newApp.name}TotalMultipliers' class='rightJustified defenseTotalCol unlocked'>0</td>` +
-            `<td id='${newApp.name}Current' class='rightJustified attacksCol unlocked'>${newApp.currentAttacks.length}</td>` +
+            `<td id='${newApp.name}TotalMultipliers' class='rightJustified defenseTotalCol unlocked' appNumber='${this.level}'>0</td>` +
+            `<td id='${newApp.name}Current' class='rightJustified attacksCol unlocked' appNumber='${this.level}'>${newApp.currentAttacks.length}</td>` +
             `<td id='${newApp.name}Defended' class='rightJustified defendedCol unlocked' appNumber='${this.level}'>${newApp.defendedAttacks}</td>`;
 
         this.appList.appendChild(row);
@@ -108,6 +114,10 @@ class AppGrid {
             this.AddNewApp.bind(this);
         document.getElementById(newApp.name + "MultipliersButton").onclick =
             this.ShowMultipliers.bind(this);
+        document.getElementById(newApp.name + "TotalMultipliers").onmouseover =
+            this.ShowAttackCost.bind(this);
+        document.getElementById(newApp.name + "Current").onmouseover =
+            this.ShowAttackCost.bind(this);
         document.getElementById(newApp.name + "Defended").onmouseover =
             this.ShowPreviousAttacks.bind(this);
     }
@@ -153,7 +163,7 @@ class AppGrid {
                     this.ShowWin();
                 }
 
-                this.UpdateAppCss(app.name, "healthy");
+                this.UpdateAppCss(app.name, app.isUnderAttack(), appNumber);
 
                 ev.srcElement.onclick = this.CreateApp.bind(this);
                 this.CreateApp(ev);
@@ -165,10 +175,13 @@ class AppGrid {
         }
     }
 
-    UpdateAppCss(appName, className) {
+    UpdateAppCss(appName, isUnderAttack, appNumber) {
+        var className = isUnderAttack ? "trouble" : "healthy";
+        this.defenseMultipliers.UpdateDdlCss(appNumber, isUnderAttack);
+
         var appNameElement = document.getElementById(appName);
 
-        if (appNameElement.className != className) {
+        if (!appNameElement.classList.contains("className")) {
             appNameElement.setAttributeNS(
                 null,
                 "class",
@@ -252,10 +265,7 @@ class AppGrid {
         for (var i = 0; i < this.level && this.allApps[i].qtyBuilt > 0; i++) {
             var app = this.allApps[i];
 
-            this.UpdateAppCss(
-                app.name,
-                app.getAttackCount() == 0 ? "healthy" : "trouble"
-            );
+            this.UpdateAppCss(app.name, app.isUnderAttack(), i);
 
             document.getElementById(app.name + "Current").innerHTML =
                 app.getAttackCount();
@@ -339,6 +349,7 @@ class AppGrid {
                 this.bankAccount = afterCost;
 
                 this.UpdateCredits();
+                this.UpdateAppCss(app.name, app.isUnderAttack(), appNumber);
 
                 document.getElementById(app.name + "Qty").innerText =
                     app.qtyBuilt;
@@ -421,6 +432,23 @@ class AppGrid {
         this.messageTimer = null;
     }
 
+    ShowAttackCost(ev) {
+        if (this.pause) {
+            return;
+        }
+
+        var appNumber = ev.srcElement.getAttribute("appNumber") * 1;
+        var app = this.allApps[appNumber];
+        var attackCost = app.getAttackCost();
+
+        if (attackCost > 0) {
+            var innerHTML = `Attack cost: &#575;${this.DisplayNumber(
+                attackCost
+            )}`;
+            this.ShowAttackList(ev, innerHTML);
+        }
+    }
+
     ShowPreviousAttacks(ev) {
         if (this.pause) {
             return;
@@ -432,22 +460,18 @@ class AppGrid {
             var app = this.allApps[appNumber];
 
             if (app.defendedAttacks != 0 && appAttacks != app) {
-                attackList.style.top = ev.clientY - 15 + "px";
-                attackList.style.display = "block";
-                attackList.innerHTML = `<label id='appAttacks' class='hidden'>${appNumber}</label>`;
-                attackList.innerHTML += "Previous attacks:<br />";
+                var innerHTML = `<label id='appAttacks' class='hidden'>${appNumber}</label>`;
+                innerHTML += "Previous attacks:<br />";
 
                 for (var i = 0; i < app.previousAttacks.length; i++) {
-                    attackList.innerHTML +=
+                    innerHTML +=
                         app.previousAttacks[i].name +
                         " x " +
                         app.previousAttacks[i].quantity +
                         "<br />";
                 }
 
-                var box = attackList.getBoundingClientRect();
-
-                attackList.style.left = ev.clientX - box.width + "px";
+                this.ShowAttackList(ev, innerHTML);
             }
         }
     }
@@ -460,6 +484,15 @@ class AppGrid {
         }
 
         return totalIncome;
+    }
+
+    ShowAttackList(event, innerHTML) {
+        attackList.innerHTML = innerHTML;
+
+        var box = attackList.getBoundingClientRect();
+        attackList.style.left = event.clientX - box.width + "px";
+        attackList.style.top = event.clientY - 15 + "px";
+        attackList.style.display = "block";
     }
 
     CloseAttackList() {
@@ -524,22 +557,17 @@ class AppGrid {
                 );
 
                 if (randomAttack >= 0 && randomAttack < this.attacks.length) {
-                    var randomStrength = Math.random() * this.level;
-                    var randomQuantity = app.multipliers[randomAttack]
-                        ? Math.ceil(
-                              Math.random() *
-                                  app.multipliers[randomAttack].quantity *
-                                  2
-                          )
-                        : Math.ceil(Math.random() * 2);
+                    var randomQuantity = Math.round(Math.random() * this.level);
 
-                    if (randomStrength > 0 && randomQuantity > 0) {
+                    if (randomQuantity > 0) {
                         var attack = this.attacks[randomAttack];
+                        var appDefense = app.getDefense();
 
                         var newAttack = new AttackVector(
-                            attack.name,
-                            attack.cost,
-                            attack.strength * randomStrength,
+                            attack,
+                            app.getIncome() * this.RandomRange(25, 150, true),
+                            this.RandomRange(25, 150, true) *
+                                (appDefense == 0 ? 20 : appDefense),
                             randomQuantity
                         );
 
@@ -557,10 +585,19 @@ class AppGrid {
         }
     }
 
+    RandomRange(min, max, isPercentage) {
+        return (Math.random() * (max - min) + min) / (isPercentage ? 100 : 1);
+    }
+
     Pause(e) {
-        pauseButton.innerText = this.pause ? "Pause" : "Resume";
+        this.pauseButton.innerText = this.pause ? "Pause" : "Resume";
 
         this.pause = !this.pause;
+
+        var adsButton = document.getElementById("adsButton");
+        if (this.pause && !adsButton.classList.contains("hidden")) {
+            adsButton.classList.add("hidden");
+        }
     }
 
     BankAccount(value = 0) {
@@ -576,7 +613,11 @@ class AppGrid {
     ShowMessageModal() {
         var messagesModal = document.getElementById("messagesModal");
         messagesModal.style.display = "block";
-        messagesModal.setAttribute("class", "messagesModal mainMessages");
+        messagesModal.setAttributeNS(
+            null,
+            "class",
+            "messagesModal mainMessages"
+        );
     }
 
     HideMessageModal() {
@@ -589,5 +630,25 @@ class AppGrid {
 
         document.getElementById("mask3").style.display = "block";
         document.getElementById("win").style.display = "block";
+    }
+
+    SetupAdsTimer() {
+        // set up income timer
+        setInterval(this.AdsTimer.bind(this), this.adsTimerLength);
+    }
+
+    AdsTimer() {
+        if (this.pause) {
+            return;
+        }
+
+        let credits = this.GetTotalIncome() * this.ticksPerSecond * 30;
+        this.adsController.UpdateButton(credits);
+    }
+
+    AdAward(credits) {
+        if (credits && credits > 0 && credits == credits * 1) {
+            this.BankAccount(credits);
+        }
     }
 }

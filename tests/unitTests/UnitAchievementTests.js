@@ -1432,13 +1432,13 @@ class UnitAchievementTests {
         this.achievements.forEach((element) => {
             document
                 .getElementById(element[0])
-                .setAttribute("class", "achievementPlaceholder");
+                .setAttributeNS(null, "class", "achievementPlaceholder");
 
             if (element[1]) {
                 if (element[1] === "neroDiv" || element[1] === "allStarDiv") {
                     document
                         .getElementById(element[1])
-                        .setAttribute("class", "hidden");
+                        .setAttributeNS(null, "class", "hidden");
                 } else {
                     document.getElementById(element[1]).innerHTML = 0;
                 }

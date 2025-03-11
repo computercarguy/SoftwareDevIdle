@@ -3,7 +3,9 @@
         <title>Software Developer Idle</title>
 
         <link href="styles.css" rel="stylesheet">
-        <script src='https://cdn.jsdelivr.net/npm/big.js@6.2.2/big.min.js'></script>
+        <script src="https://cdn.jsdelivr.net/npm/big.js@6.2.2/big.min.js"></script>
+        <script src="https://sdk.crazygames.com/crazygames-sdk-v3.js"></script>
+        <script src="adsController.js"></script>
         <script src="appType.js"></script>
         <script src="appMultiplier.js"></script>
         <script src="attackVector.js"></script>
@@ -27,6 +29,7 @@
                 <td class="nowrap fontSize" style="min-width:200px;">Credits: &#575;<label id="credits"></label></td>
                 <td class="nowrap fontSize">Income: &#575;<label id="income"></label> per second</td>
                 <td class="fitWidth rightJustified" id="emptyCell"></td>
+                <td class="rightJustified"><button type="button" class="hidden" id="adsButton"></button></td>
                 <td class="fitWidth rightJustified"><button type="button" id="achievementsButton">Achievements</button></td>
                 <td class="fitWidth"><button type="button" id="instructionsButton">Instructions</button></td>
             </tr>
@@ -135,10 +138,16 @@
                         <tr>
                             <td class="nameDefenseCol"></td>
                             <td class="costDefenseCol"></td>
-                            <td class='plain multiplierDefenseCol'>Attack:</td>
-                            <td id='attackStrength' class='multiplierDdlDefenseCol trouble'>0</td>
+                            <td class='plain multiplierDefenseCol'>Attack Strength:</td>
+                            <td id='attackStrength' class='multiplierDdlDefenseCol trouble rightJustified'>0</td>
                             <td class='plain purchasedDefenseCol'>Defense:</td>
                             <td id='defenseStrength' class='totalDefenseCol healthy'>0</td>
+                        </tr>
+                        <tr>
+                            <td class="nameDefenseCol"></td>
+                            <td class="costDefenseCol"></td>
+                            <td class='plain multiplierDefenseCol'>Cost per sec:</td>
+                            <td id='attackCost' class='multiplierDdlDefenseCol trouble rightJustified'>&#575;0</td>
                         </tr>
                     </tfoot>
                 </table>

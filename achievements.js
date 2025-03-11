@@ -1,44 +1,42 @@
 class Achievements {
-    deploymentsLevel = 0;
-    deploymentsQty = 0;
-    defensesLevel = 0;
-    defensesQty = 0;
-    incomeLevel = 0;
-    cashLevel = 0;
-    loansQty = 0;
-    loansLevel = 0;
-    loansMaxLevel = 0;
-    attacksTotal = 0;
-    attacksLevel = 0;
-    adsWatched = 0;
-    adsLevel = 0;
-
-    incomeWentNegative = false;
-    creditsWentNegative = false;
-
-    attackTypes = getAttacks().map((item) => item.name);
-    defenseTypes = getMultipliers().map((item) => item.name);
-
-    bigMoneyLevel = 11;
-    extraterrestrialLevel = 17;
-    extradimensionalLevel = 26;
-
-    isBigMoney = false;
-    isExtraterrestrial = false;
-    isExtradimensional = false;
-    allDefenseTypes = false;
-    allAttackTypes = false;
-    hasWon = false;
-    hasWonNoLoans = false;
-    negativeIncome = false;
-    hasRestarted = false;
-    brownPants = false;
-    neroFiddled = false;
-    allStar = false;
-
-    ShowMessage = null;
-
     constructor(showMessage) {
+        this.deploymentsLevel = 0;
+        this.deploymentsQty = 0;
+        this.defensesLevel = 0;
+        this.defensesQty = 0;
+        this.incomeLevel = 0;
+        this.cashLevel = 0;
+        this.loansQty = 0;
+        this.loansLevel = 0;
+        this.loansMaxLevel = 0;
+        this.attacksTotal = 0;
+        this.attacksLevel = 0;
+        this.adsWatched = 0;
+        this.adsLevel = 0;
+
+        this.incomeWentNegative = false;
+        this.creditsWentNegative = false;
+
+        this.attackTypes = getAttacks().map((item) => item.name);
+        this.defenseTypes = getMultipliers().map((item) => item.name);
+
+        this.bigMoneyLevel = 11;
+        this.extraterrestrialLevel = 17;
+        this.extradimensionalLevel = 26;
+
+        this.isBigMoney = false;
+        this.isExtraterrestrial = false;
+        this.isExtradimensional = false;
+        this.allDefenseTypes = false;
+        this.allAttackTypes = false;
+        this.hasWon = false;
+        this.hasWonNoLoans = false;
+        this.negativeIncome = false;
+        this.hasRestarted = false;
+        this.brownPants = false;
+        this.neroFiddled = false;
+        this.allStar = false;
+
         this.ShowMessage = showMessage;
 
         this.UpdateAchievements();
@@ -418,7 +416,9 @@ class Achievements {
 
         if (this.neroFiddled) {
             achievementsCollected++;
-            document.getElementById("neroDiv").setAttribute("class", "");
+            document
+                .getElementById("neroDiv")
+                .setAttributeNS(null, "class", "");
             this.SetGoldStar("neroAchievement");
         }
 
@@ -427,7 +427,9 @@ class Achievements {
 
             this.ShowMessage("You earned the All Star achievement.", 10, false);
 
-            document.getElementById("allStarDiv").setAttribute("class", "");
+            document
+                .getElementById("allStarDiv")
+                .setAttributeNS(null, "class", "");
             this.SetGoldStar("allstarAchievement");
         }
     }
@@ -446,6 +448,8 @@ class Achievements {
     }
 
     SetGoldStar(id) {
-        document.getElementById(id).setAttribute("class", "achievementWon");
+        document
+            .getElementById(id)
+            .setAttributeNS(null, "class", "achievementWon");
     }
 }

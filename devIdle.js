@@ -1,21 +1,19 @@
 class DevIdle {
-    ticksPerSecond = 4;
-    incomeTimerLength = (1 / this.ticksPerSecond) * 1000;
-    attackTimerLength = 15 * 1000;
-    instructionsModal = null;
-    mask = null;
-    runningTests = false; // change this if you want to run tests without the timers, or do it in the constructor
-
-    appGrid = null;
-
-    testScriptsLoaded = 0;
-    testScripts = [
-        "testFramework/testFramework.js",
-        "tests/integrationTesting.js",
-        "tests/unitTesting.js"
-    ];
-
     constructor() {
+        this.ticksPerSecond = 4;
+        this.incomeTimerLength = (1 / this.ticksPerSecond) * 1000;
+        this.attackTimerLength = 15 * 1000;
+        this.instructionsModal = null;
+        this.mask = null;
+        this.runningTests = false; // change this if you want to run tests without the timers, or do it in the constructor
+
+        this.testScriptsLoaded = 0;
+        this.testScripts = [
+            "testFramework/testFramework.js",
+            "tests/integrationTesting.js",
+            "tests/unitTesting.js"
+        ];
+
         this.appGrid = new AppGrid(this.ticksPerSecond);
 
         document.getElementById("pauseButton").onclick =

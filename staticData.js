@@ -112,39 +112,35 @@ function getMultipliers() {
 }
 
 function getAttacks() {
-    // AttackVector(attackName, attackCost, difficulty, qty = 0)
+    // Just names of the attack types, since everything else gets set programmatically
     return [
-        new AttackVector("Script Kiddie", 1, 5),
-        new AttackVector("Bug", 10, 15),
-        new AttackVector("Customer Dissatisfaction", 50, 30),
-        new AttackVector("Worm", 150, 50),
-        new AttackVector("Trojan", 500, 80),
-        new AttackVector("Rootkit", 1000, 150),
-        new AttackVector("Technical Debt", 1500, 500),
-        new AttackVector("Cooling Failure", 3500, 800),
-        new AttackVector("Zero-Day Exploit", 4500, 1000),
-        new AttackVector("Lead Dev Quits", 6000, 1500),
-        new AttackVector("Active Hack", 10000, 2500),
-        new AttackVector("2 Devs Quit", 20000, 5000),
-        new AttackVector("Backdoor", 40000, 8000),
-        new AttackVector("Micromanagement", 80000, 12000),
-        new AttackVector("Server Failure", 150000, 50000),
-        new AttackVector("5 Devs Quit", 350000, 100000),
-        new AttackVector("Dev Department Quits", 500000, 200000),
-        new AttackVector("Switch Failure", 5000000, 500000),
-        new AttackVector("DDOS", 50000000, 1500000),
-        new AttackVector("Bot farm", 150000000, 5000000),
-        new AttackVector("Zombie net", 500000000, 15000000),
-        new AttackVector("Hacker Group Attacks", 4500000000, 500000000),
-        new AttackVector("Satellite Failure", 30000000000, 15000000000),
-        new AttackVector("Rocket Failure", 150000000000, 75000000000),
-        new AttackVector("Planet-wide EMP", 2000000000000, 3500000000000),
-        new AttackVector(
-            "Interstellar Terrorists",
-            25000000000000,
-            15000000000000
-        ),
-        new AttackVector("Anti-matter Bomb", 150000000000000, 75000000000000),
-        new AttackVector("Supernova", 150000000000000000n, 775000000000000)
+        "Script Kiddie",
+        "Bug",
+        "Customer Dissatisfaction",
+        "Worm",
+        "Trojan",
+        "Rootkit",
+        "Technical Debt",
+        "Cooling Failure",
+        "Zero-Day Exploit",
+        "Lead Dev Quits",
+        "Active Hack",
+        "2 Devs Quit",
+        "Backdoor",
+        "Micromanagement",
+        "Server Failure",
+        "5 Devs Quit",
+        "Dev Department Quits",
+        "Switch Failure",
+        "DDOS",
+        "Bot farm",
+        "Zombie net",
+        "Hacker Group Attacks",
+        "Satellite Failure",
+        "Rocket Failure",
+        "Planet-wide EMP",
+        "Interstellar Terrorists",
+        "Anti-matter Bomb",
+        "Supernova"
     ];
 }

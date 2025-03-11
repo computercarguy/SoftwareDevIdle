@@ -1,20 +1,16 @@
 class AppType {
-    name = "";
-    cost = 0;
-    income = 0;
-    incomeMultiplication = 1;
-    qtyBuilt = 0;
-    multipliers = [];
-    currentAttacks = [];
-    previousAttacks = [];
-    defendedAttacks = 0;
-    defenseMultiplier = 5;
-    achievements = null;
-
     constructor(appName, appCost, appIncome) {
         this.name = appName;
         this.cost = appCost;
         this.income = appIncome;
+        this.incomeMultiplication = 1;
+        this.qtyBuilt = 0;
+        this.multipliers = [];
+        this.currentAttacks = [];
+        this.previousAttacks = [];
+        this.defendedAttacks = 0;
+        this.defenseMultiplier = 5;
+        this.achievements = null;
     }
 
     buyApp(quantity) {
@@ -26,7 +22,7 @@ class AppType {
         var upperBounds = this.qtyBuilt + quantity;
 
         for (var i = this.qtyBuilt; i < upperBounds; i++) {
-            price = Big(this.cost).mul(Math.pow(1.5, i)).add(price).toNumber();
+            price = Big(this.cost).mul(Math.pow(1.25, i)).add(price).toNumber();
         }
 
         return price;
@@ -48,19 +44,16 @@ class AppType {
             .toNumber();
     }
 
-    getMultipliersTotal() {
-        this.incomeMultiplication = Big(0);
+    updateMultipliersTotal() {
+        var total = Big(0);
 
         for (var i = 0; i < this.multipliers.length; i++) {
-            this.incomeMultiplication = Big(this.multipliers[i].value)
+            total = Big(this.multipliers[i].value)
                 .mul(this.multipliers[i].quantity)
-                .add(this.incomeMultiplication);
+                .add(total);
         }
 
-        this.incomeMultiplication =
-            this.incomeMultiplication == 0
-                ? 1
-                : this.incomeMultiplication.toNumber();
+        this.incomeMultiplication = total == 0 ? 1 : total.toNumber();
     }
 
     buyMultiplier(newMultiplier, quantity) {
@@ -82,7 +75,7 @@ class AppType {
 
         multiplier.buyMultiplier(quantity);
 
-        this.getMultipliersTotal();
+        this.updateMultipliersTotal();
 
         this.updateDefense();
     }
@@ -103,23 +96,13 @@ class AppType {
             this.defendedAttacks += newAttack.quantity;
             this.addPreviousAttack(newAttack);
             this.achievements.CheckAttacks(newAttack.name, newAttack.quantity);
-            return;
-        }
-
-        var attack = null;
-
-        for (var i = 0; i < this.currentAttacks.length; i++) {
-            if (this.currentAttacks[i].name === newAttack.name) {
-                attack = this.currentAttacks[i];
-            }
-        }
-
-        if (attack) {
-            attack.quantity += newAttack.quantity;
-            attack.strength += newAttack.strength;
         } else {
             this.currentAttacks.push(newAttack);
         }
+    }
+
+    isUnderAttack() {
+        return this.currentAttacks.length > 0;
     }
 
     getAttackCount() {

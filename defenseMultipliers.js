@@ -1,23 +1,4 @@
 class DefenseMultipliers {
-    ClearMessage = null;
-    GetAccountMinimum = null;
-    BankAccount = null;
-    ShowMessage = null;
-    DisplayNumber = null;
-    UpdateAttacks = null;
-    UpdateCredits = null;
-    UpdateIncomeDefense = null;
-    UpdatePurchaseButton = null;
-
-    multiplierMultiplier = document.getElementById("MultiplierMultiplier");
-
-    allApps = null;
-    achievements = null;
-
-    multipliers = getMultipliers(); // staticData.js
-    activeApp = -1;
-    appLevel = 0;
-
     constructor(
         allAppsList,
         achievements,
@@ -31,6 +12,13 @@ class DefenseMultipliers {
         updateIncomeDefense,
         updatePurchaseButton
     ) {
+        this.multiplierMultiplier = document.getElementById(
+            "MultiplierMultiplier"
+        );
+        this.multipliers = getMultipliers(); // staticData.js
+        this.activeApp = -1;
+        this.appLevel = 0;
+
         this.allApps = allAppsList;
         this.achievements = achievements;
         this.ClearMessage = clearMessage;
@@ -151,8 +139,11 @@ class DefenseMultipliers {
         if (this.activeApp === appNumber) {
             var app = this.allApps[appNumber];
 
-            document.getElementById("attackStrength").innerText =
+            document.getElementById("attackStrength").innerHTML =
                 this.DisplayNumber(app.getAttackStrength());
+
+            document.getElementById("attackCost").innerHTML =
+                "&#575;" + this.DisplayNumber(app.getAttackCost());
             document.getElementById("defenseStrength").innerText =
                 this.DisplayNumber(app.getDefense());
         }
@@ -393,7 +384,8 @@ class DefenseMultipliers {
     ShowMessageModal() {
         var messagesModal = document.getElementById("messagesModal");
         messagesModal.style.display = "block";
-        messagesModal.setAttribute(
+        messagesModal.setAttributeNS(
+            null,
             "class",
             "messagesModal multipliersMessages"
         );
@@ -401,5 +393,11 @@ class DefenseMultipliers {
 
     HideMessageModal() {
         document.getElementById("messagesModal").style.display = "none";
+    }
+
+    UpdateDdlCss(appNumber, isUnderAttack) {
+        var ddl = document.getElementById("appName");
+        var className = isUnderAttack ? "trouble2" : "";
+        ddl.options[appNumber].setAttributeNS(null, "class", className);
     }
 }

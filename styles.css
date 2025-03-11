@@ -163,6 +163,10 @@ table.scrollMultipliers tbody {
 	font-size: 15pt;
 }
 
+.trouble2 {
+	background-color: red;
+}
+
 .healthy {
 	background-color: #af0;
 	font-family: Arial;
@@ -358,4 +362,11 @@ table.scrollMultipliers tbody {
     content:url(infinity.svg);
     height: 20px;
     vertical-align: middle;
+}
+
+#adsButton {
+    background-color: blueviolet;
+    color: white;
+    border-radius: 10px;
+    width: 200px;
 }
